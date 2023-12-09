@@ -1,19 +1,21 @@
-import RestaurantCard, { withPromotedLabel } from "./RestaurantCard";
+import RestaurantCard, {withPromotedLabel} from "./RestaurantCard";
 import { useContext, useEffect, useState } from "react";
 import Shimmer from "./Shimmer";
 import { Link } from "react-router-dom";
 import useOnlineStatus from "../../utils/useOnlineStatus";
 import userContext from "../../utils/userContext";
 
+
 const Body = () => {
   const [listOfRestaurants, setListOfRestaurants] = useState([]);
   const [filteredRestaurants, setFilterRestaurants] = useState([]);
   const [searchText, setSearchText] = useState("");
+  
   const RestaurantCardPromoted = withPromotedLabel(RestaurantCard);
 
   useEffect(() => {
     fetchData();
-    console.log(listOfRestaurants);
+    console.log(listOfRestaurants)
   }, []);
 
   const fetchData = async () => {
@@ -38,7 +40,8 @@ const Body = () => {
       </h1>
     );
 
-  const { loggedInUser, setUserName } = useContext(userContext);
+    const {loggedInUser, setUserName} = useContext(userContext);
+ 
   return listOfRestaurants.length === 0 ? (
     <Shimmer />
   ) : (
@@ -78,6 +81,11 @@ const Body = () => {
             Top Rated restaurants
           </button>
         </div>
+
+        <div className="search flex items-center m-3 p-3">
+           <input className="border border-black p-2" type="text" value={loggedInUser} onChange={(e) => setUserName(e.target.value)} />
+        </div>
+        
       </div>
       <div className="flex flex-wrap justify-center">
         {filteredRestaurants.map((restaurant) => (
@@ -85,15 +93,17 @@ const Body = () => {
             key={restaurant.info.id}
             to={"/restaurants/" + restaurant.info.id}
           >
-            {restaurant.info.promoted ? (
-              <RestaurantCardPromoted resData={restaurant} />
-            ) : (
-              <RestaurantCard resData={restaurant} />
-            )}
+            {
+              restaurant.info.promoted ? (
+                <RestaurantCardPromoted resData={restaurant} />
+              ) : (
+                <RestaurantCard resData={restaurant} />
+              )
+            }
           </Link>
         ))}
       </div>
     </div>
   );
 };
-export default Body;
+      export default Body;    
