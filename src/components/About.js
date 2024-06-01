@@ -6,7 +6,7 @@ function About() {
   return (
     <div>
       
- <UserClass name={""} location={"  everywhere"} />
+ <UserClass name={"  Ram"} location={"  everywhere"} />
 
  <userContext.Consumer>
   {({loggedInUser}) => (

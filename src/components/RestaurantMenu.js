@@ -6,28 +6,32 @@ import { useState } from "react";
 
 const RestaurantMenu = () => {
   const { resId } = useParams();
-      
+
+  const dummy = "Dummy Data";
+
   const resInfo = useRestaurantMenu(resId);
-  //  useRestaurantMenu is customize hook
 
   const [showIndex, setShowIndex] = useState(null);
-  
+
   if (resInfo === null) return <Shimmer />;
 
-  const { name, cuisines, costForTwoMessage, avgRating, city } =
-    resInfo?.cards[0]?.card?.card?.info;
+  const { name, city, cuisines, costForTwoMessage } =
+    resInfo?.cards[2]?.card?.card?.info;
 
-  const { itemCards } =
-    resInfo?.cards[2]?.groupedCard?.cardGroupMap?.REGULAR?.cards[1]?.card?.card;
-    const categories =
-      resInfo?.cards[2]?.groupedCard?.cardGroupMap?.REGULAR?.cards.filter(
-        (c) =>
-          c.card?.["card"]?.["@type"] === "type.googleapis.com/swiggy.presentation.food.v2.ItemCategory"
-      );
-   
+
+  const categories =
+    resInfo?.cards[4]?.groupedCard?.cardGroupMap?.REGULAR?.cards.filter(
+      (c) =>
+        c.card?.["card"]?.["@type"] ===
+        "type.googleapis.com/swiggy.presentation.food.v2.ItemCategory"
+    );
+
+
+   console.log(categories)
   return (
     <div className="text-center">
       <h1 className="font-bold my-5 text-2xl">{name} </h1>
+      <h2>{city}</h2>
       <p className="font-bold text-lg">
         {cuisines.join(",")} - {costForTwoMessage}
       </p>
@@ -35,28 +39,18 @@ const RestaurantMenu = () => {
       {avgRating} */}
 
       {categories.map((category, index) => (
-        // control componenet
         <RestaurantCategory
           key={category?.card?.card?.title}
           data={category?.card?.card}
-          showItems = {index === showIndex ? true : false}
-        setShowIndex={() => setShowIndex(index)}
+          showItems={index === showIndex ? true : false}
+          setShowIndex={() => setShowIndex(index)}
+          dummy={dummy}
         />
       ))}
+
     </div>
   );
 }
 
 export default RestaurantMenu
 
-
-{/* <ul>
-        {itemCards &&
-          itemCards.map((item) => (
-            <li key={item.card.info.id}>
-              {item.card.info.name} - {"Rs."}
-              {item.card.info.price / 100 || item.card.info.defaultPrice / 100}
-              <br />
-            </li>
-          ))}
-      </ul> */}

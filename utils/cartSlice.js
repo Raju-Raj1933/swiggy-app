@@ -7,13 +7,14 @@ const cartSlice = createSlice({
   },
   reducers: {
     addItem: (state, action) => {
-      // mutating ths state
-      // direct modify data here
       state.items.push(action.payload);
     },
+
     removeItem: (state, action) => {
-      state.items.pop();
+      state.items = state.items.filter((item) => item.card.info.id !== action.payload);
     },
+
+
     clearCart: (state) => {
       state.items.length = 0;
     },
